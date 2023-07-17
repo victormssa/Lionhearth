@@ -1,4 +1,4 @@
-![Lionhearth Logo](client/public/assets/images/lionhearthMin.png)
+![Lionhearth Logo](client/public/assets/images/Lionhearth.png)
 # LIONHEARTH - ROLE PLAYING APPLICATION
 Welcome to Lionhearth, a desktop application designed to enhance and streamline your tabletop RPG gaming experience with friends. 
 This project, developed by Archei Software, aims to bring the joy of playing tabletop RPGs to the digital realm, connecting players regardless of their geographical locations.
