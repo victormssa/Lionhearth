@@ -1,0 +1,11 @@
+/home/victoralves/Documentos/GitHub/Lionhearth/client/src/app/api/target/debug/deps/state-aeb3b0b3b80ba23b.rmeta: /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/lib.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/ident_hash.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/container.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/storage.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/init.rs
+
+/home/victoralves/Documentos/GitHub/Lionhearth/client/src/app/api/target/debug/deps/libstate-aeb3b0b3b80ba23b.rlib: /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/lib.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/ident_hash.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/container.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/storage.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/init.rs
+
+/home/victoralves/Documentos/GitHub/Lionhearth/client/src/app/api/target/debug/deps/state-aeb3b0b3b80ba23b.d: /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/lib.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/ident_hash.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/container.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/storage.rs /home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/init.rs
+
+/home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/lib.rs:
+/home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/ident_hash.rs:
+/home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/container.rs:
+/home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/storage.rs:
+/home/victoralves/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/init.rs:
