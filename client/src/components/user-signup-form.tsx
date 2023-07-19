@@ -10,7 +10,7 @@ import { Label } from "./ui/label"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   async function onSubmit(event: React.SyntheticEvent) {
@@ -30,6 +30,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Label className="sr-only" htmlFor="email">
               Username
             </Label>
+            <p>Seu nome de usuário</p>
             <Input
               id="username"
               placeholder="Nome de usuário"
@@ -44,6 +45,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
+            <p>Seu e-mail</p>
             <Input
               id="email"
               placeholder="nome@exemplo.com"
@@ -58,9 +60,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Label className="sr-only" htmlFor="email">
               Celular para contato
             </Label>
+            <p>Seu número para contato</p>
             <Input
               id="cellphone"
-              placeholder="(+DDD) Telefone"
+              placeholder="(+DDD) X XXXX-XXXX"
               type="tel"
               autoCapitalize="none"
               autoComplete="cellphone"
@@ -72,9 +75,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Label className="sr-only" htmlFor="email">
               Senha
             </Label>
+            <p>Sua senha</p>
             <Input
               id="password"
-              placeholder="Sua senha"
+              placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
               type="password"
               autoCapitalize="none"
               autoComplete="password"
@@ -86,9 +90,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             <Label className="sr-only" htmlFor="email">
               Senha
             </Label>
+            <p>Confirme sua senha</p>
             <Input
               id="password"
-              placeholder="Confirme a sua senha"
+              placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
               type="password"
               autoCapitalize="none"
               autoComplete="password"
@@ -98,8 +103,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
-              Senha
+              Sua data de aniversário
             </Label>
+           <p>Sua data de nascimento</p>
             <Input
               id="date"
               placeholder="Confirme a sua idade"
@@ -132,26 +138,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             />
             <p className="w-96">Aceito receber notícias sobre a Lionhearth.</p>
           </div>
+          <span>Já possuí uma conta? <a href="/auth/login" className="w-96 text-red-700 hover:text-red-600 cursor-pointer underline underline-offset-4 hover:text-primary">Faça Login</a>.</span>
         </div>
       </form>
-      <div className="relative">
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground ">
-            Ou continue com
-          </span>
-        </div>
-        <div className=" inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-      </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Github
-      </Button>
     </div>
   )
 }

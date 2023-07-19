@@ -12,11 +12,13 @@ export default function Lionhearth() {
  
   useEffect(() => {
     if (!(user || loading)) {
-      router.push('/auth/sign-in')
+      router.push('/auth/login')
+    } else {
+      router.push('/home')
     }
   }, [user, loading, router])
   return (
-    <main className="flex align-middle justify-center bg-zinc-900 h-[945px]">
+    <main className="flex align-middle justify-center bg-zinc-900 h-[1080px]">
       <div className="z-20 flex-col items-center align-middle justify-center">
             <Image 
             src={logo}
@@ -27,7 +29,6 @@ export default function Lionhearth() {
             />
             <h1 className="text-white ml-28 my-0 text-lg font-bold">Loading...</h1>
       </div>
-      
     </main>
   );
 }
