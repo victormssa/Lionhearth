@@ -29,4 +29,4 @@ If you're looking for help or simply want to share your thoughts about the proje
 
 ## 📜 License
 
-This project is licensed under the MIT License. For more information, see the [LICENSE](./LICENSE) file.
+This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike (CC BY-NC-SA). For more information, see the [LICENSE](./LICENSE) file.
