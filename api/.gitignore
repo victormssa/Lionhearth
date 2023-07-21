@@ -34,3 +34,4 @@ coverage/
 # Cache and generated files
 .npm/
 .yarn/
+.vercel
