@@ -7,8 +7,6 @@ import logo from '../../../../public/assets/images/lionhearth_logo.png'
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "../../../components/ui/button"
 import { UserLoginForm } from "../../../components/user-login-form"
-import ThreeD20 from '../../../components/ThreeD20';
-import ThreeD12 from '../../../components/ThreeD12';
 
 export const metadata: Metadata = {
   title: "Login | Lionhearth",
@@ -29,8 +27,7 @@ export default function Login() {
             height={100}
             />
           </div>
-          <ThreeD20 />
-          <ThreeD12 />
+
           <div className="lg:px-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
