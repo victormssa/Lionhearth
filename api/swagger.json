@@ -1,0 +1,83 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Lionhearth API",
+      "description": "The Lionhearth API provides endpoints to manage user accounts, access game data, and interact with the Lionhearth RPG platform.",
+      "contact": {
+        "name": "Archei Software",
+        "url": "https://archei.vercel.app",
+        "email": "archeisoftware@gmail.com"
+      },
+      "version": "v0.0.1",
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "servers": [
+      {
+        "url": "https://api-lionhearth.vercel.app"
+      }
+    ],
+    "paths": {
+      "/users": {
+        "get": {
+          "summary": "Retrieve a list of users",
+          "description": "Get a list of registered users on Lionhearth platform.",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "users": [
+                      {
+                        "id": 1,
+                        "name": "John Doe",
+                        "email": "john.doe@example.com"
+                      },
+                      {
+                        "id": 2,
+                        "name": "Jane Smith",
+                        "email": "jane.smith@example.com"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "error": "Authentication required"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "content": {
+                "application/json": {
+                  "example": {
+                    "error": "Internal Server Error. Please try again later."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    }
+  }

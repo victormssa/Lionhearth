@@ -1,0 +1,36 @@
+# Node.js
+node_modules/
+
+# NestJS build output
+dist/
+
+# Environment variables
+.env
+
+# IDE/Editor specific files
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
+vercel.json
+
+# Coverage
+coverage/
+
+# Build files
+*.js
+*.js.map
+*.d.ts
+
+# Cache and generated files
+.npm/
+.yarn/
