@@ -27,10 +27,10 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
       <form onSubmit={onSubmit}>
         <div className="grid gap-2">
         <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+            <Label className="text-white sr-only" htmlFor="email">
               Username
             </Label>
-            <p>Seu nome de usuário</p>
+            <p className="text-white">Seu nome de usuário</p>
             <Input
               id="username"
               placeholder="Nome de usuário"
@@ -42,10 +42,10 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
             />
           </div>
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+            <Label className="text-white sr-only" htmlFor="email">
               Email
             </Label>
-            <p>Seu e-mail</p>
+            <p className="text-white">Seu e-mail</p>
             <Input
               id="email"
               placeholder="nome@exemplo.com"
@@ -57,10 +57,10 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
             />
           </div>
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+            <Label className="text-white sr-only" htmlFor="email">
               Celular para contato
             </Label>
-            <p>Seu número para contato</p>
+            <p className="text-white">Seu número para contato</p>
             <Input
               id="cellphone"
               placeholder="(+DDD) X XXXX-XXXX"
@@ -72,10 +72,10 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
             />
           </div>
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+            <Label className="text-white sr-only" htmlFor="email">
               Senha
             </Label>
-            <p>Sua senha</p>
+            <p className="text-white">Sua senha</p>
             <Input
               id="password"
               placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
@@ -87,10 +87,10 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
             />
           </div>
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+            <Label className="text-white sr-only" htmlFor="email">
               Senha
             </Label>
-            <p>Confirme sua senha</p>
+            <p className="text-white">Confirme sua senha</p>
             <Input
               id="password"
               placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
@@ -102,10 +102,10 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
             />
           </div>
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
+            <Label className="text-white sr-only" htmlFor="email">
               Sua data de aniversário
             </Label>
-           <p>Sua data de nascimento</p>
+           <p className="text-white">Sua data de nascimento</p>
             <Input
               id="date"
               placeholder="Confirme a sua idade"
@@ -116,19 +116,19 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
               disabled={isLoading}
             />
           </div>
-          <Button disabled={isLoading}>
+          <Button className='bg-red-700 hover:bg-red-600' disabled={isLoading}>
             {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
             )}
             Cadastre-se com o Email
           </Button>
-          <div className="flex mt-2  items-center">
-            <Label className="sr-only" htmlFor="email">
+          <div className="flex items-center mt-2">
+            <Label className="text-white sr-only" htmlFor="email">
               Aceita receber noticías?
             </Label>
             <Input
               id="news"
-              className="w-4 h-4 mr-2 cursor-pointer accent-red-600"
+              className="mr-2 w-4 h-4 cursor-pointer accent-red-600"
               placeholder="Confirme a sua senha"
               type="checkbox"
               autoCapitalize="none"
@@ -136,9 +136,9 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
               autoCorrect="off"
               disabled={isLoading}
             />
-            <p className="w-96">Aceito receber notícias sobre a Lionhearth.</p>
+            <p className="w-96 text-white">Aceito receber notícias sobre a Lionhearth.</p>
           </div>
-          <span>Já possuí uma conta? <a href="/auth/login" className="w-96 text-red-700 hover:text-red-600 cursor-pointer underline underline-offset-4 hover:text-primary">Faça Login</a>.</span>
+          <span className="text-white">Já possuí uma conta? <a href="/auth/login" className="w-96 text-red-700 underline cursor-pointer hover:text-red-600 underline-offset-4 hover:text-primary">Faça Login</a>.</span>
         </div>
       </form>
     </div>

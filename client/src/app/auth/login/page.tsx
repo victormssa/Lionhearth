@@ -19,7 +19,7 @@ export default function Login() {
         <div className="relative h-[1080px] flex-col bg-muted pt-20 text-white dark:border-r lg:flex bg-zinc-900 overflow-x-hidden overflow-y-hidden">
           <div className="bg-zinc-900" />
           
-          <aside className="absolute top-0 right-0 p-4 mt-2 mr-4 w-96 bg-black rounded-lg">
+          <aside className="absolute top-0 right-0 p-4 mt-4 mr-6 w-96 rounded-lg bg-zinc-950">
             <span>
               Temos <span className="text-red-500">null</span> jogadores <span className="font-bold text-green-500">online</span> nesse momento.
             </span>

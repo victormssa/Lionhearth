@@ -1,0 +1,32 @@
+# Ignore development files and directories
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# Ignore build output directories
+out
+dist
+build
+src-tauri
+
+# Exclude specific large files or directories
+# Add any large files or directories that need to be excluded below
+# For example:
+# large-file.mp4
+# big-directory/
+
+# Exclude files matching certain patterns
+# *.pdf           # Exclude all PDF files
+# example/*.png   # Exclude PNG files inside the "example" directory
+# **/*.log        # Exclude all log files from all directories
+
+# Exclude specific large files exceeding the limit
+# For example, if there's a large-file.mp4 exceeding 100 MB, exclude it from deployment
+# large-file.mp4
+
+# You can add more specific patterns or filenames to ignore as needed
