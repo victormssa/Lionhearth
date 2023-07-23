@@ -16,8 +16,14 @@ export const metadata: Metadata = {
 export default function Login() {
   return (
     <>
-        <div className="relative hidden h-[1080px] flex-col bg-muted pt-20 text-white dark:border-r lg:flex bg-zinc-900 overflow-x-hidden overflow-y-hidden">
+        <div className="relative h-[1080px] flex-col bg-muted pt-20 text-white dark:border-r lg:flex bg-zinc-900 overflow-x-hidden overflow-y-hidden">
           <div className="bg-zinc-900" />
+          
+          <aside className="absolute top-0 right-0 p-4 mt-4 mr-4 w-96 bg-gray-800 rounded-lg">
+            <span>
+              Temos <span className="text-red-500">null</span> jogadores <span className="font-bold text-green-500">online</span> nesse momento.
+            </span>
+          </aside>
           
           <div className="relative flex justify-center mb-[-5rem]">
             <Image 
@@ -32,14 +38,14 @@ export default function Login() {
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">
-                Faça o Login
+                Faça o seu Login
               </h1>
               <p className="text-sm text-muted-foreground">
                 Entre com seus dados para acessar a sua conta.
               </p>
             </div>
             <UserLoginForm />
-            <a className=" flex justify-center mt-32" href="https://archei.vercel.app">
+            <a className="flex justify-center mt-32" href="https://archei.vercel.app">
             <Image 
             src={archeiWhite}
             alt="Logo da Archei Software"

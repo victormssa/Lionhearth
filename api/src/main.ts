@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as bodyParser from 'body-parser';
+import * as path from 'path';
 
 async function bootstrap() {
   try {
@@ -11,6 +12,8 @@ async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
     app.use(bodyParser.json({ limit: '10mb' }));
     app.useGlobalPipes(new ValidationPipe());
+
+    app.useStaticAssets(path.join(__dirname, 'swagger-ui')); // Altere para a pasta correta onde você colocou os arquivos do Swagger UI
 
     app.enableCors({
       origin: ['https://lionhearth.vercel.app', 'http://localhost:3001'],
@@ -40,4 +43,5 @@ async function bootstrap() {
     console.error('Failed to start the server', error);
   }
 }
+
 bootstrap();

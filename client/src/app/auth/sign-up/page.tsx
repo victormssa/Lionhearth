@@ -32,10 +32,10 @@ export default function SignUp() {
           className="hidden dark:block"
         />
       </div>
-      <div className="container relative hidden h-[1080px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <div className="relative hidden h-full flex-col bg-muted px-10 text-white dark:border-r lg:flex">
+      <div className="container relative h-[1080px] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+        <div className="hidden relative flex-col px-10 h-full text-white bg-muted dark:border-r lg:flex">
           <div className="absolute inset-0 bg-zinc-900" />
-          <a className="relative z-20 flex items-center text-lg font-medium" href="https://archei.vercel.app">
+          <a className="flex relative z-20 items-center text-lg font-medium" href="https://archei.vercel.app">
             <Image 
             src={archeiWhite}
             alt="Logo da Archei Software"
@@ -43,7 +43,7 @@ export default function SignUp() {
             height={100}
             />
           </a>
-          <div className="relative z-20 flex items-center justify-center">
+          <div className="flex relative z-20 justify-center items-center">
             <Image 
             src={logo}
             alt="Logo da Lionhearth"
@@ -60,7 +60,7 @@ export default function SignUp() {
             </blockquote>
           </div>
         </div>
-        <div className="lg:px-8 mb-20">
+        <div className="mb-20 lg:px-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">
@@ -71,7 +71,7 @@ export default function SignUp() {
               </p>
             </div>
             <UserSignUpForm />
-            <p className="px-8 text-center text-sm text-muted-foreground">
+            <p className="px-8 text-sm text-center text-muted-foreground">
               Ao continuar, você aceita os nossos {" "}
               <Link
                 href="/terms"

@@ -33,7 +33,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
             <Input
               className="text-black"
               id="username"
-              placeholder="Nome de usuário ou e-mail"
+              placeholder="Nome de usuário ou E-mail"
               type="text"
               autoCapitalize="none"
               autoComplete="username"
@@ -58,17 +58,17 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
           </div>
           <Button className="bg-red-700 hover:bg-red-600" disabled={isLoading}>
             {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
             )}
             Entrar em sua conta
           </Button>
-          <div className="flex mt-2  items-center">
+          <div className="flex items-center mt-2">
             <Label className="sr-only" htmlFor="email">
               Aceita receber noticías?
             </Label>
             <Input
               id="news"
-              className="w-4 h-4 mr-2 cursor-pointer accent-red-600"
+              className="mr-2 w-4 h-4 cursor-pointer accent-red-600"
               placeholder="Confirme a sua senha"
               type="checkbox"
               autoCapitalize="none"
@@ -78,7 +78,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
             />
             <p className="w-96">Lembre-se de mim.</p>
           </div>
-          <span>Ainda não possuí uma conta? <a href="/auth/sign-up" className="w-96 text-red-700 hover:text-red-600 cursor-pointer underline underline-offset-4 hover:text-primary">Cadastre-se</a>.</span>
+          <span>Ainda não possuí uma conta? <a href="/auth/sign-up" className="w-96 text-red-700 underline cursor-pointer hover:text-red-600 underline-offset-4 hover:text-primary">Cadastre-se</a>.</span>
         </div>
       </form>
     </div>
