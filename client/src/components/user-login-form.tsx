@@ -41,6 +41,10 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
 
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 3000)
     const newItem: Credentials = { username: username, password };
 
     try {
@@ -135,20 +139,15 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
               disabled={isLoading}
             />
           </div>
-          <Button className="bg-red-700 hover:bg-red-600" disabled={isLoading}>
+          <Button className="bg-red-700 hover:bg-red-600 mb-2" disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
             )}
             Entrar em sua conta
           </Button>
-          <div className="flex justify-center mb-3">
-            {errorMessage && (
-              <div className="text-[#ff3030] font-bold">{errorMessage}</div>
-            )}
-          </div>
-          <div className="flex items-center mt-2">
+          <div className="flex items-center mt-0">
             <Label className="sr-only" htmlFor="email">
-              Aceita receber noticías?
+              Lembrar do Login?
             </Label>
             <Input
               id="news"
@@ -162,6 +161,12 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
             />
             <p className="w-96">Lembre-se de mim.</p>
           </div>
+          <div className="flex justify-center mb-0">
+            {errorMessage && (
+              <div className="text-[#ff3030] font-bold">{errorMessage}</div>
+            )}
+          </div>
+          
           <span>Ainda não possuí uma conta? <a href="/pt-br/auth/sign-up" className="w-96 text-red-700 underline cursor-pointer hover:text-red-600 underline-offset-4 hover:text-primary">Cadastre-se</a>.</span>
         </div>
       </form>

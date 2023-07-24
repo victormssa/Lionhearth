@@ -13,7 +13,6 @@ export class SignUpDto {
   @IsString()
   readonly username: string;
 
-  @IsNotEmpty()
   @IsString()
   readonly fullname: string;
 

@@ -1,12 +1,12 @@
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import archeiBlack from '../../../../public/assets/images/archei_black.png'
-import archeiWhite from '../../../../public/assets/images/archei_white.png'
-import logo from '../../../../public/assets/images/lionhearth_logo.png'
+import archeiBlack from '../../../../../public/assets/images/archei_black.png'
+import archeiWhite from '../../../../../public/assets/images/archei_white.png'
+import logo from '../../../../../public/assets/images/lionhearth_logo.png'
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "../../../components/ui/button"
-import { UserLoginForm } from "../../../components/user-login-form"
+import { buttonVariants } from "../../../../components/ui/button"
+import { UserLoginForm } from "../../../../components/user-login-form"
 
 export const metadata: Metadata = {
   title: "Login | Lionhearth",

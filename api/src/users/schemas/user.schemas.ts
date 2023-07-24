@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export enum Permission {
   ADMIN = 'Admin',
-  CUSTOMER = 'Customer',
+  CLIENT = 'Player',
 }
 
 @Schema({

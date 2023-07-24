@@ -9,7 +9,7 @@ import { buttonVariants } from "../../../../components/ui/button"
 import { UserSignUpForm } from "../../../../components/user-signup-form"
 
 export const metadata: Metadata = {
-  title: "Sign Up | Lionhearth",
+  title: "Cadastro | Lionhearth",
   description: "Authentication forms built using the components.",
 }
 
@@ -40,10 +40,10 @@ export default function SignUp() {
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight text-white">
-                Crie uma conta
+                Cadastre-se
               </h1>
               <p className="text-sm text-white text-muted-foreground">
-                Entre com seus dados abaixo para criar a sua conta
+              Sem precisar enfrentar dragões, crie sua conta em poucos segundos!
               </p>
             </div>
             <UserSignUpForm />
