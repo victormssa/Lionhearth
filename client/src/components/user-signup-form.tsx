@@ -53,11 +53,18 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
 
     try {
       const newItem = {
         username,
+        fullname: null,
         email,
+        cellphone: null,
         password,
         permission,
 
@@ -67,9 +74,11 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
         formData.append("profileImage", profileImage);
       }// Add the image file to the form data
       formData.append("username", newItem.username);
+      formData.append("fullname", "");
       formData.append("email", newItem.email);
+      formData.append("cellphone", "");
       formData.append("password", newItem.password);
-      formData.append("permission", "Customer");
+      formData.append("permission", "Player");
 
       await axios.post(API_URL, formData, {
         headers: {
@@ -79,8 +88,8 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
       toast.success('Usuário criado com sucesso, enviando você para o login.');
 
       setTimeout(() => {
-        navigate.push("/login");
-      }, 5000);
+        navigate.push("pt-br/auth/login");
+      }, 6000);
 
     } catch (err: unknown) {
       const errorResponse = (err as ErrorResponse).error;
@@ -101,130 +110,133 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
   const avatarSrc = profileImage ? URL.createObjectURL(profileImage) : '';
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={onSubmit}>
-        <div className="grid gap-2">
-          <Avatar className="w-52 h-auto mb-2 border-2 border-red-600">
-          {profileImage && (
-            <AvatarImage src={avatarSrc} />
-          )}
-          {!profileImage && (
-            <span></span>
-          )}
-            
-          </Avatar>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="picture" className='text-white text-base font-normal'>Foto do perfil</Label>
-            <Input onChange={handleProfileImageChange} id="picture" type="file" className="cursor-pointer" />
-          </div>
-          <section className="grid grid-cols-2 gap-2">
-            <div className="grid gap-1">
-              <Label className="text-white sr-only" htmlFor="email">
-                Username
-              </Label>
-              <p className="text-white">Seu nome de usuário</p>
-              <Input
-                onChange={(event) => setUsername(event.target.value)}
-                id="username"
-                placeholder="Nome de usuário"
-                type="text"
-                autoCapitalize="none"
-                autoComplete="username"
-                autoCorrect="off"
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <div className="grid gap-1">
-              <Label className="text-white sr-only" htmlFor="email">
-                Email
-              </Label>
-              <p className="text-white">Seu e-mail</p>
-              <Input
-              onChange={(event) => setEmail(event.target.value)}
-                id="email"
-                placeholder="nome@exemplo.com"
-                type="email"
-                autoCapitalize="none"
-                autoComplete="email"
-                autoCorrect="off"
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <div className="grid gap-1">
-              <Label className="text-white sr-only" htmlFor="email">
-                Senha
-              </Label>
-              <p className="text-white">Sua senha</p>
-              <Input
-                onChange={handlePasswordChange}
-                id="password"
-                placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                type="password"
-                autoCapitalize="none"
-                autoComplete="password"
-                autoCorrect="off"
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <div className="grid gap-1">
-              <Label className="text-white sr-only" htmlFor="email">
-                Sua data de aniversário
-              </Label>
-              <p className="text-white">Sua data de nascimento</p>
-              <Input
-                id="date"
-                placeholder="Confirme a sua idade"
-                type="date"
-                autoCapitalize="none"
-                autoComplete="date"
-                autoCorrect="off"
-                required
-                disabled={isLoading}
-              />
-            </div>
-          </section>
-          <Button className="bg-red-700 hover:bg-red-600" disabled={isLoading}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
+    <>
+      <ToastContainer />
+      <div className={cn("grid gap-6", className)} {...props}>
+        <form onSubmit={handleSubmit}>
+          <div className="grid gap-2">
+            <Avatar className="w-52 h-auto mb-2 border-2 border-red-600">
+            {profileImage && (
+              <AvatarImage src={avatarSrc} />
             )}
-            Cadastre-se e parta para a Aventura!
-          </Button>
-          <div className="flex items-center mt-2">
-            <Label className="text-white sr-only" htmlFor="email">
-              Aceita receber noticías?
-            </Label>
-            <Input
-              id="news"
-              className="mr-2 w-4 h-4 cursor-pointer accent-red-600"
-              placeholder="Confirme a sua senha"
-              type="checkbox"
-              autoCapitalize="none"
-              autoComplete="news"
-              autoCorrect="off"
-              disabled={isLoading}
-            />
-            <p className="w-96 text-white">
-              Aceito receber notícias sobre a Lionhearth.
-            </p>
-          </div>
-          <div className="flex justify-center mb-0">
-                {error && <div className="text-[#ff3030] font-bold">{error}</div>}
+            {!profileImage && (
+              <span></span>
+            )}
+      
+            </Avatar>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="picture" className='text-white text-base font-normal'>Foto do perfil</Label>
+              <Input onChange={handleProfileImageChange} id="picture" type="file" className="cursor-pointer" />
+            </div>
+            <section className="grid grid-cols-2 gap-2">
+              <div className="grid gap-1">
+                <Label className="text-white sr-only" htmlFor="email">
+                  Username
+                </Label>
+                <p className="text-white">Seu nome de usuário</p>
+                <Input
+                  onChange={(event) => setUsername(event.target.value)}
+                  id="username"
+                  placeholder="Nome de usuário"
+                  type="text"
+                  autoCapitalize="none"
+                  autoComplete="username"
+                  autoCorrect="off"
+                  required
+                  disabled={isLoading}
+                />
               </div>
-          <span className="text-white">
-            Já possuí uma conta?{" "}
-            <a
-              href="login"
-              className="w-96 text-red-700 underline cursor-pointer hover:text-red-600 underline-offset-4 hover:text-primary"
-            >
-              Faça Login
-            </a>
-            .
-          </span>
-        </div>
-      </form>
-    </div>
+              <div className="grid gap-1">
+                <Label className="text-white sr-only" htmlFor="email">
+                  Email
+                </Label>
+                <p className="text-white">Seu e-mail</p>
+                <Input
+                onChange={(event) => setEmail(event.target.value)}
+                  id="email"
+                  placeholder="nome@exemplo.com"
+                  type="email"
+                  autoCapitalize="none"
+                  autoComplete="email"
+                  autoCorrect="off"
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="grid gap-1">
+                <Label className="text-white sr-only" htmlFor="email">
+                  Senha
+                </Label>
+                <p className="text-white">Sua senha</p>
+                <Input
+                  onChange={handlePasswordChange}
+                  id="password"
+                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                  type="password"
+                  autoCapitalize="none"
+                  autoComplete="password"
+                  autoCorrect="off"
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="grid gap-1">
+                <Label className="text-white sr-only" htmlFor="email">
+                  Sua data de aniversário
+                </Label>
+                <p className="text-white">Sua data de nascimento</p>
+                <Input
+                  id="date"
+                  placeholder="Confirme a sua idade"
+                  type="date"
+                  autoCapitalize="none"
+                  autoComplete="date"
+                  autoCorrect="off"
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+            </section>
+            <Button className="bg-red-700 hover:bg-red-600" disabled={isLoading}>
+              {isLoading && (
+                <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
+              )}
+              Cadastre-se e parta para a Aventura!
+            </Button>
+            <div className="flex items-center mt-2">
+              <Label className="text-white sr-only" htmlFor="email">
+                Aceita receber noticías?
+              </Label>
+              <Input
+                id="news"
+                className="mr-2 w-4 h-4 cursor-pointer accent-red-600"
+                placeholder="Confirme a sua senha"
+                type="checkbox"
+                autoCapitalize="none"
+                autoComplete="news"
+                autoCorrect="off"
+                disabled={isLoading}
+              />
+              <p className="w-96 text-white">
+                Aceito receber notícias sobre a Lionhearth.
+              </p>
+            </div>
+            <div className="flex justify-center mb-0">
+                  {error && <div className="text-[#ff3030] font-bold">{error}</div>}
+                </div>
+            <span className="text-white">
+              Já possuí uma conta?{" "}
+              <a
+                href="login"
+                className="w-96 text-red-700 underline cursor-pointer hover:text-red-600 underline-offset-4 hover:text-primary"
+              >
+                Faça Login
+              </a>
+              .
+            </span>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
