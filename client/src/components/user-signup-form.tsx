@@ -88,7 +88,7 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
       toast.success('Usuário criado com sucesso, enviando você para o login.');
 
       setTimeout(() => {
-        navigate.push("pt-br/auth/login");
+        navigate.push("/login");
       }, 6000);
 
     } catch (err: unknown) {
@@ -115,7 +115,7 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
       <div className={cn("grid gap-6", className)} {...props}>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-2">
-            <Avatar className="w-52 h-auto mb-2 border-2 border-red-600">
+            <Avatar className="ml-[5rem] w-52 h-auto mb-2 border-2 border-red-600">
             {profileImage && (
               <AvatarImage src={avatarSrc} />
             )}
@@ -126,7 +126,7 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
             </Avatar>
             <div className="grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="picture" className='text-white text-base font-normal'>Foto do perfil</Label>
-              <Input onChange={handleProfileImageChange} id="picture" type="file" className="cursor-pointer" />
+              <Input onChange={handleProfileImageChange} id="picture" type="file" className="w-[25.5rem] cursor-pointer" />
             </div>
             <section className="grid grid-cols-2 gap-2">
               <div className="grid gap-1">
