@@ -12,9 +12,9 @@ export default function Lionhearth() {
  
   useEffect(() => {
     if (!(user || loading)) {
-      router.push('/auth/login')
+      router.push('pt-br/auth/login')
     } else {
-      router.push('/home')
+      router.push('pt-br/home')
     }
   }, [user, loading, router])
   return (
@@ -27,7 +27,7 @@ export default function Lionhearth() {
             width={300}
             height={100}
             />
-            <h1 className="text-white ml-28 my-0 text-lg font-bold">Loading...</h1>
+            <h1 className="ml-16 my-0 text-3xl font-bold text-gray-200">Carregando...</h1>
       </div>
     </main>
   );

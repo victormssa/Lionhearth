@@ -138,7 +138,7 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
             />
             <p className="w-96 text-white">Aceito receber notícias sobre a Lionhearth.</p>
           </div>
-          <span className="text-white">Já possuí uma conta? <a href="/auth/login" className="w-96 text-red-700 underline cursor-pointer hover:text-red-600 underline-offset-4 hover:text-primary">Faça Login</a>.</span>
+          <span className="text-white">Já possuí uma conta? <a href="login" className="w-96 text-red-700 underline cursor-pointer hover:text-red-600 underline-offset-4 hover:text-primary">Faça Login</a>.</span>
         </div>
       </form>
     </div>

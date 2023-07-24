@@ -1,7 +1,7 @@
 {
   "build": {
-    "beforeBuildCommand": "bun run build",
-    "beforeDevCommand": "bun run dev",
+    "beforeBuildCommand": "yarn run build",
+    "beforeDevCommand": "yarn run dev",
     "devPath": "http://localhost:3000",
     "distDir": "../out"
   },

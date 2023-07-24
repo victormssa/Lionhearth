@@ -16,7 +16,7 @@ async function bootstrap() {
     app.useStaticAssets(path.join(__dirname, 'swagger-ui')); // Altere para a pasta correta onde você colocou os arquivos do Swagger UI
 
     app.enableCors({
-      origin: ['https://lionhearth.vercel.app', 'http://localhost:3001'],
+      origin: ['https://lionhearth.vercel.app', 'http://localhost:3000', 'http://localhost:3001'],
       methods: 'GET, POST, PUT, DELETE',
       allowedHeaders:
         'Origin, X-Requested-With, Content-Type, Accept, Authorization',
