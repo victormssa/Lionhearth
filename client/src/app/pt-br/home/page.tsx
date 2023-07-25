@@ -1,4 +1,3 @@
-'use client'
 import Image from 'next/image'
 import type { Metadata } from "next"
 import Menu from '../../../components/br-menu-home'

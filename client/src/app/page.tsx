@@ -1,16 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import type { Metadata } from 'next'
 import { useRouter } from "next/navigation";
 import Image from "next/image"
 import logo from '../../public/assets/images/lionhearth_logo.png'
 
 const useUser = () => ({ user: null, loading: false })
 
-export const metadata: Metadata = {
-  title: 'Lionhearth',
-  description: 'Your own tabletop RPG.',
-}
+
 
 export default function Lionhearth() {
   const { user, loading } = useUser()
