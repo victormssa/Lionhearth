@@ -1,9 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { BiUserPlus, BiSolidCartDownload } from 'react-icons/bi';
-import { FaDiceD20, FaUserFriends } from 'react-icons/fa';
+import { BiSolidCartDownload } from 'react-icons/bi';
+import { FaDiceD20, FaUserFriends, FaUserPlus } from 'react-icons/fa';
 import { IoNotifications, IoSettings } from 'react-icons/io5'
+import { MdPersonSearch } from 'react-icons/md'
+import { HiUserAdd } from 'react-icons/hi'
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import logo from '../../public/assets/images/apple-touch-icon.png';
 import avatarHayato from '../../public/assets/images/hayato.png';
@@ -13,10 +16,70 @@ import avatarHitler from './../../public/assets/images/2.jpg';
 import { Input } from "./ui/input";
 import { createAvatar } from '@dicebear/core';
 import { identicon } from '@dicebear/collection';
+import axios, { AxiosRequestConfig } from "axios";
+import Cookies from 'js-cookie';
+import jwtDecode from "jwt-decode";
 
 export default function Menu() {
+  const navigate = useRouter();
+  const [userId, setUserId] = useState<string | null>(null);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [contactOpen, setContactOpen] = useState(false);
+  const [inputType, setInputType] = useState(null); // new state to track which input is open
+  const [profileImage, setProfileImage] = useState("");
+
+  const API_URL = "https://api-lionhearth.vercel.app/users"
+
+  useEffect(() => {
+
+    const token = Cookies.get('token');
+
+    const fetchUser = async () => {
+      if (token) {
+        const decodedToken: any = jwtDecode(token);
+        const userId = decodedToken.id;
+        setUserId(userId);
+
+        if (userId) {
+          const config: AxiosRequestConfig = {
+            headers: { Authorization: `Bearer ${token}` },
+          };
+
+          try {
+            const response = await axios.get(`${API_URL}/${userId}`, config);
+            const imageBuffer = response.data.profileImage.data; // obtém o buffer de imagem do response
+            const blob = new Blob([new Uint8Array(imageBuffer)], {
+              type: "image/png",
+            }); // cria um objeto Blob a partir do buffer
+            const imageUrl = URL.createObjectURL(blob); // cria um URL para o objeto Blob
+            setProfileImage(imageUrl); // define a URL como a fonte da imagem
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      }
+    };
+
+    const checkUserExistence = async (userId: string | null): Promise<void> => {
+      try {
+        if (userId !== null) {
+          const response = await fetch(`${API_URL}/${userId}`);
+          if (response.ok) {
+            console.log();
+          } else {
+            localStorage.removeItem('_Usr_tk_');
+            Cookies.remove("_Usr_tk_");
+            navigate.push("/");
+          }
+        }
+      } catch (error) {
+        console.error('Ocorreu um erro ao verificar a existência do usuário:', error);
+      }
+    };
+
+    fetchUser();
+    checkUserExistence(userId);
+  }, [navigate, userId]);
 
   const handleIconClick = (iconName: any) => {
     if (iconName === selectedIcon && iconName === 'icon1') {
@@ -26,15 +89,14 @@ export default function Menu() {
       setContactOpen(iconName === 'icon1');
     }
   };
-  const userId = 'Lionhearth';
-  const avatar = createAvatar(identicon, {
-    "seed": userId,
-    "scale": 60,
-    "backgroundColor": [
-      "ffffff"
-    ]
-  });
-  const svg = avatar.toString(); 
+
+  const handleBiUserPlusClick = () => {
+    setInputType(prevInputType => prevInputType === 'addAmigo' ? null : 'addAmigo'); // Toggle the "Add Amigo" input visibility
+  };
+
+  const handleMdPersonSearchClick = () => {
+    setInputType(prevInputType => prevInputType === 'pesquisar' ? null : 'pesquisar'); // Toggle the "Pesquisar" input visibility
+  };
   
 
   return (
@@ -44,27 +106,26 @@ export default function Menu() {
           <a href="#">
             <Image className="w-12 h-auto" src={logo} alt="" />
           </a>
-          
-          <Image className="object-cover w-10 h-10 rounded-full" src={`https://api.dicebear.com/6.x/identicon/svg?seed=${userId}&scale=80&backgroundColor=ffdfbf,ffd5dc,d1d4f9,c0aede,b6e3f4`} width={400} height={400} alt="Foto do Usuário" />
-          
+
+          <Image className="object-cover w-10 h-10 rounded-full" src={profileImage}/>
           <a href="home" onClick={() => handleIconClick('icon2')} className={`p-1.5 hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon2' ? 'text-red-700' : 'text-gray-500'}`}>
             <FaDiceD20 className='text-2xl'></FaDiceD20>
           </a>
-          
+
           <span onClick={() => handleIconClick('icon1')} className={`p-1.5 cursor-pointer hover:text-red-500  focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon1' ? 'text-red-700' : 'text-gray-500'}`}>
-          <FaUserFriends className='text-2xl'></FaUserFriends>
+            <FaUserFriends className='text-2xl'></FaUserFriends>
           </span>
-          
+
           <a href="store" onClick={() => handleIconClick('icon3')} className={`p-1.5 hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon3' ? 'text-red-700' : 'text-gray-500'}`}>
-          <BiSolidCartDownload className='text-3xl'></BiSolidCartDownload>
+            <BiSolidCartDownload className='text-3xl'></BiSolidCartDownload>
           </a>
-          
-          <span  onClick={() => handleIconClick('icon4')} className={`p-1.5 cursor-pointer hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon4' ? 'text-red-700' : 'text-gray-500'}`}>
-          <IoNotifications className='text-2xl'></IoNotifications>
+
+          <span onClick={() => handleIconClick('icon4')} className={`p-1.5 cursor-pointer hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon4' ? 'text-red-700' : 'text-gray-500'}`}>
+            <IoNotifications className='text-2xl'></IoNotifications>
           </span>
-          
+
           <a href="settings" onClick={() => handleIconClick('icon5')} className={`p-1.5 hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon5' ? 'text-red-700' : 'text-gray-500'}`}>
-          <IoSettings className='text-2xl'></IoSettings>
+            <IoSettings className='text-2xl'></IoSettings>
           </a>
         </div>
 
@@ -121,16 +182,37 @@ export default function Menu() {
                 <p className="text-xs text-gray-500 dark:text-gray-400">Não pertubar</p>
               </div>
             </button>
-            <div className="absolute top-[53rem] left-[7rem] w-40 " >
-            <BiUserPlus className="text-2xl absolute top-[0.5rem] left-[-2rem] cursor-pointer hover:text-red-600 text-gray-400  focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800" />
-              <Input
-                placeholder="Add amigo"
-                type="text"
-                autoCapitalize="none"
-                autoCorrect="off"
-                required
-                className='bg-zinc-900'
-              />
+            <div>
+              <div className="relative mt-[31rem]">
+                <MdPersonSearch
+                  onClick={handleMdPersonSearchClick}
+                  className="text-2xl absolute top-[0.5rem] left-[10rem] cursor-pointer hover:text-red-600 text-gray-400 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800"
+                />
+                {inputType === 'pesquisar' && ( // Show the "Pesquisar" input only when inputType is 'pesquisar'
+                  <Input
+                    placeholder="Pesquisar"
+                    type="text"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    required
+                    className="bg-zinc-900 absolute top-[-3rem] w-60 ml-2 border-red-700"
+                  />
+                )}
+                <HiUserAdd
+                  onClick={handleBiUserPlusClick}
+                  className="text-2xl absolute top-[0.5rem] left-[4rem] cursor-pointer hover:text-red-600 text-gray-400 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800"
+                />
+                {inputType === 'addAmigo' && ( // Show the "Add Amigo" input only when inputType is 'addAmigo'
+                  <Input
+                    placeholder="Username"
+                    type="text"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    required
+                    className="bg-zinc-900 absolute top-[-3rem] w-60 ml-2 border-red-700"
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
