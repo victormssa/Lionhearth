@@ -3,22 +3,18 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image"
 import logo from '../../public/assets/images/lionhearth_logo.png'
-
 const useUser = () => ({ user: null, loading: false })
-
-
 
 export default function Lionhearth() {
   const { user, loading } = useUser()
   const router = useRouter()
- 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!(user || loading)) {
       router.push('pt-br/auth/login')
     } else {
       router.push('pt-br/home')
     }
-  }, [user, loading, router])
+  }, [user, loading, router])*/
   return (
     <main className="flex align-middle justify-center bg-zinc-900 h-[1080px]">
       <div className="z-20 flex-col items-center align-middle justify-center">
