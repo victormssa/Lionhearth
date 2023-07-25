@@ -26,7 +26,7 @@ export default function Menu() {
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [contactOpen, setContactOpen] = useState(false);
-  const [inputType, setInputType] = useState(null); // new state to track which input is open
+  const [inputType, setInputType] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState("");
 
   const API_URL = "https://api-lionhearth.vercel.app/users"
@@ -99,13 +99,12 @@ export default function Menu() {
       setContactOpen(iconName === 'icon1');
     }
   };
-
   const handleBiUserPlusClick = () => {
-    setInputType(prevInputType => prevInputType === 'addAmigo' ? null : 'addAmigo'); // Toggle the "Add Amigo" input visibility
+    setInputType('addAmigo');
   };
-
+  
   const handleMdPersonSearchClick = () => {
-    setInputType(prevInputType => prevInputType === 'pesquisar' ? null : 'pesquisar'); // Toggle the "Pesquisar" input visibility
+    setInputType('pesquisar');
   };
   
 
