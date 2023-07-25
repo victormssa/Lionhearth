@@ -1,5 +1,4 @@
 "use client"
-import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect } from "react";
@@ -21,8 +20,8 @@ export default function Login() {
   const router = useRouter()
   const token = Cookies.get('token');
   const API_URL = "https://api-lionhearth.vercel.app/users"
-  const decodedToken: DecodedToken = jwtDecode(token || "");
-  const userId = decodedToken.id as string;
+  const decodedToken: DecodedToken | null = token ? jwtDecode(token) : null;
+  const userId = decodedToken?.id;
   useEffect(() => {
     const checkUserExistence = async (userId: string): Promise<void> => { // Change the parameter type to 'string'
       try {
@@ -37,10 +36,10 @@ export default function Login() {
       }
     };
   
-    if (userId !== undefined) {
+    if (userId !== undefined && decodedToken !== null) {
       checkUserExistence(userId);
     }
-  }, [router, userId]);
+  }, [router, userId, decodedToken]);
   return (
     <>
         <div className="relative h-[1080px] flex-col bg-muted pt-20 text-white dark:border-r lg:flex bg-zinc-900 overflow-x-hidden overflow-y-hidden">
