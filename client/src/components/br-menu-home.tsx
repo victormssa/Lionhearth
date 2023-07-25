@@ -82,7 +82,6 @@ export default function Menu() {
   }, [router, userId]);
   
   const location = usePathname();
-  console.log(location);
   const isActive = (path: string) => {
     return location === path
       ? "text-red-700"
