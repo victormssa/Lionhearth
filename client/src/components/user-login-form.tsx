@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
 import React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios, { AxiosError } from "axios";
 import jwt_decode from "jwt-decode";
-import Cookies from 'js-cookie';
-import { cn } from "@/lib/utils"
-import { Icons } from "./icons"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
+import Cookies from "js-cookie";
+import { cn } from "@/lib/utils";
+import { Icons } from "./icons";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -24,7 +24,7 @@ interface Credentials {
 }
 
 export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -41,37 +41,37 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
 
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true)
-    
+    setIsLoading(true);
+
     const newItem: Credentials = { username: username, password };
 
     try {
       const url = `https://api-lionhearth.vercel.app/users/login`;
       const response = await axios.post(url, newItem);
       const data = response.data;
-      
-        Cookies.set("token", data.token, { secure: true, expires: 1 });
-        const token = Cookies.get("token");
-        if (token) {
-          const decodedToken: DecodedToken = jwt_decode(token);
-          const currentTime = Date.now() / 1000;
 
-          if (decodedToken.exp > currentTime) {
-            setTimeout(() => {
-              setIsLoading(false)
-            }, 1000)
-            navigate.push("/pt-br/home");
-          }
-        } else {
-          setPassword("");
-          setUsername("");
-          setErrorMessage(data.message);
+      Cookies.set("token", data.token, { secure: true, expires: 1 });
+      const token = Cookies.get("token");
+      if (token) {
+        const decodedToken: DecodedToken = jwt_decode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken.exp > currentTime) {
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1000);
+          navigate.push("/pt-br/home");
         }
+      } else {
+        setPassword("");
+        setUsername("");
+        setErrorMessage(data.message);
+      }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
       setTimeout(() => {
-        setIsLoading(false)
-      }, 1000)
+        setIsLoading(false);
+      }, 1000);
 
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
@@ -100,7 +100,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={login}>
         <div className="grid gap-2">
-        <div className="grid gap-1">
+          <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Username
             </Label>
@@ -134,7 +134,10 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
               disabled={isLoading}
             />
           </div>
-          <Button className="bg-red-700 hover:bg-red-600 mb-2" disabled={isLoading}>
+          <Button
+            className="bg-red-700 hover:bg-red-600 mb-2"
+            disabled={isLoading}
+          >
             {isLoading && (
               <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
             )}
@@ -145,10 +148,19 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
               <div className="text-[#ff3030] font-bold">{errorMessage}</div>
             )}
           </div>
-          
-          <span>Ainda não possuí uma conta? <a href="/pt-br/auth/sign-up" className="w-96 text-red-700 underline cursor-pointer hover:text-red-600 underline-offset-4 hover:text-primary">Cadastre-se</a>.</span>
+
+          <span>
+            Ainda não possuí uma conta?{" "}
+            <a
+              href="/pt-br/auth/sign-up"
+              className="w-96 text-red-700 underline cursor-pointer hover:text-red-600 underline-offset-4 hover:text-primary"
+            >
+              Cadastre-se
+            </a>
+            .
+          </span>
         </div>
       </form>
     </div>
-  )
+  );
 }
