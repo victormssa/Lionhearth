@@ -39,7 +39,7 @@ export default function Menu() {
 
   return (
     <>
-      <aside className="flex">
+      <aside className="flex fixed">
         <div className="flex flex-col items-center w-16 h-screen py-8 space-y-8 bg-zinc-900 dark:bg-gray-900 dark:border-gray-700">
           <a href="#">
             <Image className="w-12 h-auto" src={logo} alt="" />
