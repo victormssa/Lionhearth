@@ -31,21 +31,21 @@ const profileFormSchema = z.object({
   username: z
     .string()
     .min(2, {
-      message: "Username must be at least 2 characters.",
+      message: "Username deve ter pelo menos 2 caracteres.",
     })
     .max(30, {
-      message: "Username must not be longer than 30 characters.",
+      message: "Username não deve ter mais que 30 caracteres.",
     }),
   email: z
     .string({
-      required_error: "Please select an email to display.",
+      required_error: "Por favor selecione um email como principal.",
     })
     .email(),
   bio: z.string().max(160).min(4),
   urls: z
     .array(
       z.object({
-        value: z.string().url({ message: "Please enter a valid URL." }),
+        value: z.string().url({ message: "Please insira um URL válido." }),
       })
     )
     .optional(),
@@ -55,10 +55,10 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
-  bio: "I own a computer.",
+  bio: "",
   urls: [
-    { value: "https://shadcn.com" },
-    { value: "http://twitter.com/shadcn" },
+    { value: "https://archei.vercel.app" },
+    { value: "http://twitter.com/archeisoftware" },
   ],
 }
 
@@ -76,7 +76,7 @@ export function ProfileForm() {
 
   function onSubmit(data: ProfileFormValues) {
     toast({
-      title: "You submitted the following values:",
+      title: "Você inseriu os seguintes valores:",
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
@@ -95,11 +95,10 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Nome de usuário" {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                Esse é o seu nome de usuário, ou mais conhecido como username. Lembre-se que é com ele que você faz seu login, e ele é único.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -114,7 +113,7 @@ export function ProfileForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                    <SelectValue placeholder="Selecione um email principal" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -124,8 +123,8 @@ export function ProfileForm() {
                 </SelectContent>
               </Select>
               <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
+                Você pode configurar os emails verificados dentro de{" "}
+                <Link href="/examples/forms" className='text-red-700'>configurações de email</Link>.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -139,14 +138,13 @@ export function ProfileForm() {
               <FormLabel>Bio</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us a little bit about yourself"
+                  placeholder="Nos conte um pouco sobre você..."
                   className="resize-none"
                   {...field}
                 />
               </FormControl>
               <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
+                Você pode <span>@mencionar</span> outros usuários e outras organizações com links para eles.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -164,7 +162,7 @@ export function ProfileForm() {
                     URLs
                   </FormLabel>
                   <FormDescription className={cn(index !== 0 && "sr-only")}>
-                    Add links to your website, blog, or social media profiles.
+                    Adicione links para seu site, blog, ou perfis de mídia sociais.
                   </FormDescription>
                   <FormControl>
                     <Input {...field} />
@@ -181,10 +179,10 @@ export function ProfileForm() {
             className="mt-2"
             onClick={() => append({ value: "" })}
           >
-            Add URL
+            Adicionar URL
           </Button>
         </div>
-        <Button type="submit">Update profile</Button>
+        <Button type="submit" className="mt-2 bg-red-700" >Atualizar Perfil</Button>
       </form>
     </Form>
   )

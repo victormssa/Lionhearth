@@ -31,16 +31,6 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
   
   const API_URL = "https://api-lionhearth.vercel.app/users/signup";
   
-  const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      const file = files[0];
-      setProfileImage(file);
-    } else {
-      setProfileImage(null);
-    }
-  };
-  
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = event.target.value;
     setPassword(newPassword);
@@ -70,9 +60,7 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
 
       };
       const formData = new FormData();
-      if (profileImage) {
-        formData.append("profileImage", profileImage);
-      }// Add the image file to the form data
+      formData.append("profileImage", "");
       formData.append("username", newItem.username);
       formData.append("fullname", "");
       formData.append("email", newItem.email);
@@ -114,20 +102,8 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
       <ToastContainer />
       <div className={cn("grid gap-6", className)} {...props}>
         <form onSubmit={handleSubmit}>
-          <div className="grid gap-2">
-            <Avatar className="ml-[5rem] w-52 h-auto mb-2 border-2 border-red-600">
-            {profileImage && (
-              <AvatarImage src={avatarSrc} />
-            )}
-            {!profileImage && (
-              <span></span>
-            )}
-      
-            </Avatar>
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="picture" className='text-white text-base font-normal'>Foto do perfil</Label>
-              <Input onChange={handleProfileImageChange} id="picture" type="file" className="w-[25.5rem] cursor-pointer" />
-            </div>
+        <span className="border-b-4 px-52 border-red-700"></span>
+          <div className="grid gap-2 mt-5">
             <section className="grid grid-cols-2 gap-2">
               <div className="grid gap-1">
                 <Label className="text-white sr-only" htmlFor="email">

@@ -6,7 +6,7 @@ import { FaDiceD20, FaUserFriends, FaUserPlus } from 'react-icons/fa';
 import { IoNotifications, IoSettings } from 'react-icons/io5'
 import { MdPersonSearch } from 'react-icons/md'
 import { HiUserAdd } from 'react-icons/hi'
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from 'next/image';
 import logo from '../../public/assets/images/apple-touch-icon.png';
 import avatarHayato from '../../public/assets/images/hayato.png';
@@ -19,9 +19,10 @@ import { identicon } from '@dicebear/collection';
 import axios, { AxiosRequestConfig } from "axios";
 import Cookies from 'js-cookie';
 import jwtDecode from "jwt-decode";
+import * as path from 'path';
 
 export default function Menu() {
-  const navigate = useRouter();
+  const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [contactOpen, setContactOpen] = useState(false);
@@ -49,7 +50,7 @@ export default function Menu() {
             const response = await axios.get(`${API_URL}/${userId}`, config);
             const imageBuffer = response.data.profileImage.data; // obtém o buffer de imagem do response
             const blob = new Blob([new Uint8Array(imageBuffer)], {
-              type: "image/png",
+              type: "image/*",
             }); // cria um objeto Blob a partir do buffer
             const imageUrl = URL.createObjectURL(blob); // cria um URL para o objeto Blob
             setProfileImage(imageUrl); // define a URL como a fonte da imagem
@@ -68,7 +69,7 @@ export default function Menu() {
             console.log();
           } else {
             Cookies.remove("token");
-            navigate.push("/");
+            router.push("/");
           }
         }
       } catch (error) {
@@ -78,11 +79,21 @@ export default function Menu() {
 
     fetchUser();
     checkUserExistence(userId);
-  }, [navigate, userId]);
+  }, [router, userId]);
+  
+  const location = usePathname();
+  console.log(location);
+  const isActive = (path: string) => {
+    return location === path
+      ? "text-red-700"
+      : "text-gray-500";
+  };
 
   const handleIconClick = (iconName: any) => {
     if (iconName === selectedIcon && iconName === 'icon1') {
-      setContactOpen(!contactOpen);
+
+      setSelectedIcon(null);
+      setContactOpen(false);
     } else {
       setSelectedIcon(iconName);
       setContactOpen(iconName === 'icon1');
@@ -105,9 +116,7 @@ export default function Menu() {
           <a href="#">
             <Image className="w-12 h-auto" src={logo} alt="" />
           </a>
-
-          <Image className="object-cover w-10 h-10 rounded-full" src={profileImage} alt='' width={400} height={400}/>
-          <a href="home" onClick={() => handleIconClick('icon2')} className={`p-1.5 hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon2' ? 'text-red-700' : 'text-gray-500'}`}>
+          <a href="home" onClick={() => handleIconClick('icon2')} className={`p-1.5 hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon2' ? 'text-red-700' : 'text-gray-500'} ${isActive("/pt-br/home")}`}>
             <FaDiceD20 className='text-2xl'></FaDiceD20>
           </a>
 
@@ -115,7 +124,7 @@ export default function Menu() {
             <FaUserFriends className='text-2xl'></FaUserFriends>
           </span>
 
-          <a href="store" onClick={() => handleIconClick('icon3')} className={`p-1.5 hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon3' ? 'text-red-700' : 'text-gray-500'}`}>
+          <a href="store" onClick={() => handleIconClick('icon3')} className={`p-1.5 hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon3' ? 'text-red-700' : 'text-gray-500'} ${isActive("/pt-br/store")}`}>
             <BiSolidCartDownload className='text-3xl'></BiSolidCartDownload>
           </a>
 
@@ -123,9 +132,15 @@ export default function Menu() {
             <IoNotifications className='text-2xl'></IoNotifications>
           </span>
 
-          <a href="settings" onClick={() => handleIconClick('icon5')} className={`p-1.5 hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon5' ? 'text-red-700' : 'text-gray-500'}`}>
+          <a href="settings" onClick={() => handleIconClick('icon5')} className={`p-1.5 hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon5' ? 'text-red-700' : 'text-gray-500'} ${isActive("/pt-br/settings")}`}>
             <IoSettings className='text-2xl'></IoSettings>
           </a>
+          <div className='absolute bottom-2'>
+            <button className='relative'>
+              <Image className="object-cover w-10 h-10 rounded-full border-2 border-red-700" src={profileImage} alt='' width={400} height={400}/>
+              <span className="h-2 w-2 rounded-full bg-emerald-500 absolute right-0.5 ring-1 ring-white bottom-0"></span>
+            </button>
+          </div>
         </div>
 
         <div className={`h-screen ${contactOpen ? 'block' : 'hidden'} py-8 overflow-y-auto bg-zinc-900 border-zinc-950 border-l border-r sm:w-64 w-60 dark:bg-gray-900 dark:border-gray-700`}>

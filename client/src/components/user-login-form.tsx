@@ -42,9 +42,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
   const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+    
     const newItem: Credentials = { username: username, password };
 
     try {
@@ -59,6 +57,9 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
           const currentTime = Date.now() / 1000;
 
           if (decodedToken.exp > currentTime) {
+            setTimeout(() => {
+              setIsLoading(false)
+            }, 1000)
             navigate.push("/pt-br/home");
           }
         } else {
@@ -68,6 +69,9 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
         }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 1000)
 
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
@@ -92,15 +96,6 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
     }
   };
 
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
-    setIsLoading(true)
-
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
-  }
-
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={login}>
@@ -117,7 +112,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
               type="text"
               autoCapitalize="none"
               autoComplete="username"
-              autoCorrect="off"
+              autoCorrect="on"
               onChange={handleUsernameChange}
               disabled={isLoading}
             />
@@ -145,22 +140,6 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
             )}
             Entrar em sua conta
           </Button>
-          <div className="flex items-center mt-0">
-            <Label className="sr-only" htmlFor="email">
-              Lembrar do Login?
-            </Label>
-            <Input
-              id="news"
-              className="mr-2 w-4 h-4 cursor-pointer accent-red-600"
-              placeholder="Confirme a sua senha"
-              type="checkbox"
-              autoCapitalize="none"
-              autoComplete="news"
-              autoCorrect="off"
-              disabled={isLoading}
-            />
-            <p className="w-96">Lembre-se de mim.</p>
-          </div>
           <div className="flex justify-center mb-0">
             {errorMessage && (
               <div className="text-[#ff3030] font-bold">{errorMessage}</div>
