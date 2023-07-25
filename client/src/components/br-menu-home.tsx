@@ -67,8 +67,7 @@ export default function Menu() {
           if (response.ok) {
             console.log();
           } else {
-            localStorage.removeItem('_Usr_tk_');
-            Cookies.remove("_Usr_tk_");
+            Cookies.remove("token");
             navigate.push("/");
           }
         }
@@ -107,7 +106,7 @@ export default function Menu() {
             <Image className="w-12 h-auto" src={logo} alt="" />
           </a>
 
-          <Image className="object-cover w-10 h-10 rounded-full" src={profileImage}/>
+          <Image className="object-cover w-10 h-10 rounded-full" src={profileImage} alt='' width={400} height={400}/>
           <a href="home" onClick={() => handleIconClick('icon2')} className={`p-1.5 hover:text-red-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 ${selectedIcon === 'icon2' ? 'text-red-700' : 'text-gray-500'}`}>
             <FaDiceD20 className='text-2xl'></FaDiceD20>
           </a>
