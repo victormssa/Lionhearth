@@ -1,12 +1,6 @@
-'use client'
-import Image from 'next/image'
-import type { Metadata } from "next"
 import Menu from '../../../components/br-menu-home'
 
-export const metadata: Metadata = {
-  title: "Loja | Lionhearth",
-  description: 'Your own tabletop RPG.',
-}
+
 export default function Store() {
   return (
     <>
