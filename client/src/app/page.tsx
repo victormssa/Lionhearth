@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+"use client"
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image"
 import logo from '../../public/assets/images/lionhearth_logo.png'
