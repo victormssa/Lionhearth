@@ -31,7 +31,6 @@ export default function Login() {
           router.push("/pt-br/home");
         } else {
           Cookies.remove("token");
-          router.push("/pt-br/auth/login");
         }
       } catch (error) {
         console.error('Ocorreu um erro ao verificar a existência do usuário:', error);
