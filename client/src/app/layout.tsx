@@ -1,13 +1,10 @@
 import '../styles/globals.css'
-import type { Metadata } from 'next'
+
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin']})
 
-export const metadata: Metadata = {
-  title: 'Lionhearth',
-  description: 'Your own tabletop RPG.',
-}
+
 
 export default function RootLayout({
   children,

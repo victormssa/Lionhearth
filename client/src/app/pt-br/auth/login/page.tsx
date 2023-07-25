@@ -10,7 +10,7 @@ import { UserLoginForm } from "../../../../components/user-login-form"
 
 export const metadata: Metadata = {
   title: "Login | Lionhearth",
-  description: "Authentication forms built using the components.",
+  description: 'Your own tabletop RPG.',
 }
 
 export default function Login() {

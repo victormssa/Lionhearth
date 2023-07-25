@@ -10,7 +10,7 @@ import { UserSignUpForm } from "../../../../components/user-signup-form"
 
 export const metadata: Metadata = {
   title: "Cadastro | Lionhearth",
-  description: "Authentication forms built using the components.",
+  description: 'Your own tabletop RPG.',
 }
 
 export default function SignUp() {

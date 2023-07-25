@@ -4,10 +4,10 @@ import type { Metadata } from "next"
 import Menu from '../../../components/br-menu-home'
 
 export const metadata: Metadata = {
-  title: 'Home | Lionhearth',
+  title: 'Configurações | Lionhearth',
   description: 'Your own tabletop RPG.',
 }
-export default function Home() {
+export default function Settings() {
   return (
     <>
     <main className='bg-zinc-800 w-[1920px] h-auto'>
