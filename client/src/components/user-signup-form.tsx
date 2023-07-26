@@ -76,7 +76,7 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
       toast.success('Usuário criado com sucesso, enviando você para o login.');
 
       setTimeout(() => {
-        navigate.push("/login");
+        navigate.push("/pt-br/auth/login");
       }, 6000);
 
     } catch (err: unknown) {
