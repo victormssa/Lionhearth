@@ -24,7 +24,6 @@ export default function Lionhearth() {
         if (response.ok) {
           router.push("/pt-br/home");
         } else {
-          Cookies.remove("token");
           router.push("/pt-br/auth/login");
         }
       } catch (error) {
@@ -37,6 +36,8 @@ export default function Lionhearth() {
 
     if (userId !== undefined && decodedToken !== null) {
       checkUserExistence(userId);
+    } else {
+      router.push("/pt-br/auth/login");
     }
   }, [router, userId, decodedToken]);
   return (
