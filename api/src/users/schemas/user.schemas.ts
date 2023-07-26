@@ -4,6 +4,12 @@ export enum Permission {
   ADMIN = 'Admin',
   CLIENT = 'Player',
 }
+export enum Status {
+  ONLINE = 'Online',
+  OCUPADO = 'Ocupado',
+  NÃO_PERTUBAR = 'Não pertubar',
+  OFFLINE = 'Offline',
+}
 
 @Schema({
   timestamps: true,
@@ -26,6 +32,9 @@ export class User {
 
   @Prop()
   permission: Permission;
+
+  @Prop()
+  status: Status;
 
   @Prop()
   profileImage: Buffer;

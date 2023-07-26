@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import { BiSolidCartDownload } from 'react-icons/bi';
 import { FaDiceD20, FaUserFriends, FaUserPlus } from 'react-icons/fa';
 import { IoNotifications, IoSettings } from 'react-icons/io5'
+import { BsPlusCircleFill} from 'react-icons/bs'
 import { MdPersonSearch } from 'react-icons/md'
 import { HiUserAdd } from 'react-icons/hi'
+import { AiOutlineSearch, AiOutlinePlus } from 'react-icons/ai';
 import { useRouter, usePathname } from "next/navigation";
 import Image from 'next/image';
 import logo from '../../public/assets/images/apple-touch-icon.png';
@@ -14,6 +16,7 @@ import avatarSho from '../../public/assets/images/Sho.png';
 import avatarLoli from './../../public/assets/images/1.png';
 import avatarHitler from './../../public/assets/images/2.jpg';
 import { Input } from "./ui/input";
+import plusSvg from '../../public/assets/images/plus-svgrepo-com.svg'
 import { createAvatar } from '@dicebear/core';
 import { identicon } from '@dicebear/collection';
 import axios, { AxiosRequestConfig } from "axios";
@@ -28,6 +31,8 @@ export default function Menu() {
   const [contactOpen, setContactOpen] = useState(false);
   const [inputType, setInputType] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState("");
+  const [pesquisarOpen, setPesquisarOpen] = useState(false);
+  const [addAmigoOpen, setAddAmigoOpen] = useState(false);
 
   const API_URL = "https://api-lionhearth.vercel.app/users"
 
@@ -80,7 +85,7 @@ export default function Menu() {
     fetchUser();
     checkUserExistence(userId);
   }, [router, userId]);
-  
+
   const location = usePathname();
   const isActive = (path: string) => {
     return location === path
@@ -99,13 +104,33 @@ export default function Menu() {
     }
   };
   const handleBiUserPlusClick = () => {
-    setInputType('addAmigo');
+    // Se o input de adicionar amigo estiver aberto, feche-o
+    if (addAmigoOpen) {
+      setAddAmigoOpen(false);
+      setInputType(''); // Limpe o estado inputType para que o input desapareça
+    } else {
+      // Se estiver fechado, abra o input de adicionar amigo
+      // e feche o input de pesquisa, se estiver aberto
+      setAddAmigoOpen(true);
+      setPesquisarOpen(false);
+      setInputType('addAmigo'); // Defina o estado inputType para 'addAmigo'
+    }
   };
-  
+
   const handleMdPersonSearchClick = () => {
-    setInputType('pesquisar');
+    // Se o input de pesquisa estiver aberto, feche-o
+    if (pesquisarOpen) {
+      setPesquisarOpen(false);
+      setInputType(''); // Limpe o estado inputType para que o input desapareça
+    } else {
+      // Se estiver fechado, abra o input de pesquisa
+      // e feche o input de adicionar amigo, se estiver aberto
+      setPesquisarOpen(true);
+      setAddAmigoOpen(false);
+      setInputType('pesquisar'); // Defina o estado inputType para 'pesquisar'
+    }
   };
-  
+
 
   return (
     <>
@@ -135,7 +160,7 @@ export default function Menu() {
           </a>
           <div className='absolute bottom-2'>
             <button className='relative'>
-              <Image className="object-cover w-10 h-10 rounded-full border-2 border-red-700" src={profileImage} alt='' width={400} height={400}/>
+              <Image className="object-cover w-10 h-10 rounded-full border-2 border-red-700" src={profileImage} alt='' width={400} height={400} />
               <span className="h-2 w-2 rounded-full bg-emerald-500 absolute right-0.5 ring-1 ring-white bottom-0"></span>
             </button>
           </div>
@@ -201,28 +226,36 @@ export default function Menu() {
                   className="text-2xl absolute top-[0.5rem] left-[10rem] cursor-pointer hover:text-red-600 text-gray-400 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800"
                 />
                 {inputType === 'pesquisar' && ( // Show the "Pesquisar" input only when inputType is 'pesquisar'
-                  <Input
+                
+                  <div className='relative'>
+                    <Input
                     placeholder="Pesquisar"
                     type="text"
                     autoCapitalize="none"
                     autoCorrect="off"
                     required
-                    className="bg-zinc-900 absolute top-[-3rem] w-60 ml-2 border-red-700"
-                  />
+                    className="bg-zinc-900 absolute top-[-3rem] w-60 ml-2 border-red-700">
+                    </Input>
+                    <AiOutlineSearch className='absolute bottom-[1.25rem] left-[14rem] text-gray-400 hover:text-red-500 cursor-pointer'/>
+                  </div>
+
                 )}
                 <HiUserAdd
                   onClick={handleBiUserPlusClick}
                   className="text-2xl absolute top-[0.5rem] left-[4rem] cursor-pointer hover:text-red-600 text-gray-400 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800"
                 />
                 {inputType === 'addAmigo' && ( // Show the "Add Amigo" input only when inputType is 'addAmigo'
-                  <Input
-                    placeholder="Username"
-                    type="text"
-                    autoCapitalize="none"
-                    autoCorrect="off"
-                    required
-                    className="bg-zinc-900 absolute top-[-3rem] w-60 ml-2 border-red-700"
-                  />
+                     <div className='relative'>
+                     <Input
+                     placeholder="Username"
+                     type="text"
+                     autoCapitalize="none"
+                     autoCorrect="off"
+                     required
+                     className="bg-zinc-900 absolute top-[-3rem] w-60 ml-2 border-red-700">
+                     </Input>
+                     <AiOutlinePlus className='absolute bottom-[1.25rem] left-[14rem] text-gray-400 hover:text-red-500 cursor-pointer'/>
+                   </div>
                 )}
               </div>
             </div>

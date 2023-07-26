@@ -55,6 +55,7 @@ export class UsersService {
     } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const status = "Offline"
 
     const user = await this.userModel.create({
       username,
@@ -64,6 +65,7 @@ export class UsersService {
       cellphone,
       permission,
       profileImage,
+      status: status
     });
 
     const token = this.jwtService.sign({ id: user._id });

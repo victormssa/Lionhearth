@@ -7,6 +7,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { Permission } from '../schemas/user.schemas';
+import { Status } from '../schemas/user.schemas';
 
 export class UpdateUserDto {
   @IsNotEmpty()
@@ -32,6 +33,9 @@ export class UpdateUserDto {
   @IsNotEmpty()
   @IsEnum(Permission, { message: 'Please enter correct permission.' })
   readonly permission: Permission;
+
+  @IsEnum(Permission, { message: 'Please enter correct permission.' })
+  readonly status: Status;
 
   @IsOptional()
   profileImage: Buffer;
