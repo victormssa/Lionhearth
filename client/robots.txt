@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /private/
+Disallow: /secret/
+Disallow: /admin/
+
+Allow: /$
+Allow: /sitemap.xml
+
+Sitemap: https://lionhearth.vercel.app/sitemap.xml
