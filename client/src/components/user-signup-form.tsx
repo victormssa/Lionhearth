@@ -3,15 +3,14 @@
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import axios from "axios";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ErrorResponse {
   error: string;
@@ -25,12 +24,16 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
   const [email, setEmail] = useState("");
   const navigate = useRouter();
   const [password, setPassword] = useState("");
+  const [birthDate, setBirthDate] = useState<Date | string>("");
+  const [bios, setBios] = useState("");
+  const [status, setStatus] = useState("");
+  const [acceptedNews, setAcceptedNews] = useState<boolean>(false);
   const [permission, setPermission] = useState("");
   const [error, setError] = useState("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
-  
+
   const API_URL = "https://api-lionhearth.vercel.app/users/signup";
-  
+
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = event.target.value;
     setPassword(newPassword);
@@ -43,66 +46,75 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const formattedBirthDate = typeof birthDate === "string" ? new Date(birthDate) : birthDate;
     setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    console.log("formattedBirthDate:", formattedBirthDate);
+  console.log("acceptedNews:", acceptedNews);
 
     try {
       const newItem = {
         username,
         fullname: null,
         email,
+        birthDate: formattedBirthDate.toISOString(),
         cellphone: null,
         password,
         permission,
-
+        status,
+        bios,
+        acceptedNews: Boolean(acceptedNews),
       };
       const formData = new FormData();
       formData.append("profileImage", "");
       formData.append("username", newItem.username);
       formData.append("fullname", "");
       formData.append("email", newItem.email);
+      formData.append("birthDate", newItem.birthDate);
       formData.append("cellphone", "");
       formData.append("password", newItem.password);
       formData.append("permission", "Player");
+      formData.append("bios", "");
+      formData.append("status", "Offline");
+      formData.append("acceptedNews", newItem.acceptedNews.toString());
 
       await axios.post(API_URL, formData, {
         headers: {
-          "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data
+          "Content-Type": "multipart/form-data",
         },
       });
-      toast.success('Usuário criado com sucesso, enviando você para o login.');
+      toast.success("Usuário criado com sucesso, enviando você para o login.");
 
       setTimeout(() => {
         navigate.push("/pt-br/auth/login");
       }, 6000);
-
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
     } catch (err: unknown) {
       const errorResponse = (err as ErrorResponse).error;
       setError(errorResponse ?? "An error occurred.");
-      toast.error('Ocorreu um erro ao criar o usuário.');
+      toast.error("Ocorreu um erro ao criar o usuário.");
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }
   };
 
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault();
-    setIsLoading(true);
+  const getMinDate = () => {
+    const today = new Date();
+    const minDate = new Date(today);
+    minDate.setFullYear(today.getFullYear() - 16);
+    return minDate.toISOString().split("T")[0];
+  };
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }
-  
-  const avatarSrc = profileImage ? URL.createObjectURL(profileImage) : '';
+  const avatarSrc = profileImage ? URL.createObjectURL(profileImage) : "";
 
   return (
     <>
       <ToastContainer />
       <div className={cn("grid gap-6", className)} {...props}>
         <form onSubmit={handleSubmit}>
-        <span className="border-b-4 px-52 border-red-700"></span>
+          <span className="border-b-4 border-red-700"></span>
           <div className="grid gap-2 mt-5">
             <section className="grid grid-cols-2 gap-2">
               <div className="grid gap-1">
@@ -128,7 +140,7 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
                 </Label>
                 <p className="text-white">Seu e-mail</p>
                 <Input
-                onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => setEmail(event.target.value)}
                   id="email"
                   placeholder="nome@exemplo.com"
                   type="email"
@@ -162,6 +174,7 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
                 </Label>
                 <p className="text-white">Sua data de nascimento</p>
                 <Input
+                  onChange={(event) => setBirthDate(event.target.value)}
                   id="date"
                   placeholder="Confirme a sua idade"
                   type="date"
@@ -170,10 +183,14 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
                   autoCorrect="off"
                   required
                   disabled={isLoading}
+                  max={getMinDate()}
                 />
               </div>
             </section>
-            <Button className="bg-red-700 hover:bg-red-600" disabled={isLoading}>
+            <Button
+              className="bg-red-700 hover:bg-red-600"
+              disabled={isLoading}
+            >
               {isLoading && (
                 <Icons.spinner className="mr-2 w-4 h-4 animate-spin" />
               )}
@@ -184,10 +201,12 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
                 Aceita receber noticías?
               </Label>
               <Input
+                onChange={(event) => setAcceptedNews(event.target.checked)} // Convert the checked value to boolean
                 id="news"
                 className="mr-2 w-4 h-4 cursor-pointer accent-red-600"
                 placeholder="Confirme a sua senha"
                 type="checkbox"
+                checked={acceptedNews} // Use 'checked' prop instead of 'value'
                 autoCapitalize="none"
                 autoComplete="news"
                 autoCorrect="off"
@@ -198,8 +217,8 @@ export function UserSignUpForm({ className, ...props }: UserAuthFormProps) {
               </p>
             </div>
             <div className="flex justify-center mb-0">
-                  {error && <div className="text-[#ff3030] font-bold">{error}</div>}
-                </div>
+              {error && <div className="text-[#ff3030] font-bold">{error}</div>}
+            </div>
             <span className="text-white">
               Já possuí uma conta?{" "}
               <a

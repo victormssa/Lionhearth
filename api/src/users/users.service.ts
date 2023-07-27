@@ -49,7 +49,10 @@ export class UsersService {
       fullname,
       email,
       password,
+      birthDate,
       cellphone,
+      bios,
+      acceptedNews,
       permission,
       profileImage,
     } = signUpDto;
@@ -62,7 +65,10 @@ export class UsersService {
       fullname,
       email,
       password: hashedPassword,
+      birthDate,
       cellphone,
+      bios,
+      acceptedNews,
       permission,
       profileImage,
       status: status

@@ -19,7 +19,7 @@ export default function SignUp() {
       <div className="container relative h-[1080px] flex-col align-middle justify-center bg-zinc-900 md:grid lg:max-w-none lg:grid-cols-1 lg:px-0">
         <div className="">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-            <div className="flex flex-col text-center mt-24">
+            <div className="flex flex-col text-center mt-32">
               <h1 className="text-2xl font-semibold tracking-tight text-white">
                 Cadastre-se
               </h1>

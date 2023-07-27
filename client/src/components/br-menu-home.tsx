@@ -54,6 +54,8 @@ export default function Menu() {
   const [status, setStatus] = useState("");
 
   const API_URL = "https://api-lionhearth.vercel.app/users"
+  
+
 
   useEffect(() => {
 
@@ -80,10 +82,20 @@ export default function Menu() {
             const imageUrl = URL.createObjectURL(blob); // cria um URL para o objeto Blob
             setProfileImage(imageUrl); // define a URL como a fonte da imagem
             setUsername(username)
+            checkAndSetProfileImage(imageUrl);
           } catch (error) {
             console.error(error);
           }
         }
+      }
+    };
+    
+    const checkAndSetProfileImage = (imageUrl: any) => {
+      if (!imageUrl) {
+        // Se a imagem do perfil for nula, defina-a com o link fornecido
+        const seed = username || ""; // Usando username como seed, caso esteja disponível
+        const defaultImageURL = `https://api.dicebear.com/6.x/initials/svg?seed=${seed}&fontWeight=600`;
+        setProfileImage(defaultImageURL);
       }
     };
 
@@ -105,7 +117,7 @@ export default function Menu() {
 
     fetchUser();
     checkUserExistence(userId);
-  }, [router, userId]);
+  }, [router, userId, username]);
 
   const location = usePathname();
   const isActive = (path: string) => {
@@ -197,7 +209,7 @@ export default function Menu() {
                 <DropdownMenuTrigger asChild>
                   <button className='relative'>
                     <Image className="object-cover w-12 h-12 rounded-full border-2 border-red-700" src={profileImage} alt='' width={400} height={400} />
-                    <span className={`h-3 w-3 rounded-full absolute right-1 ring-1 ring-white bottom-0 ${getDotColor()}`}></span>                  
+                    <span className={`h-3 w-3 rounded-full absolute right-1 bottom-0 ${getDotColor()}`}></span>                  
                     </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">

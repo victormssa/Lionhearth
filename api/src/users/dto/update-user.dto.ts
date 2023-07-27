@@ -26,6 +26,10 @@ export class UpdateUserDto {
   @IsString()
   @MinLength(8)
   readonly password: string;
+  
+  @IsNotEmpty()
+  @IsString()
+  readonly birthDate: string;
 
   @IsString()
   readonly cellphone: string;
@@ -34,8 +38,15 @@ export class UpdateUserDto {
   @IsEnum(Permission, { message: 'Please enter correct permission.' })
   readonly permission: Permission;
 
-  @IsEnum(Permission, { message: 'Please enter correct permission.' })
+  @IsEnum(Status, { message: 'Please enter correct status.' })
   readonly status: Status;
+  
+  @IsString()
+  readonly bios: string;
+  
+  @IsNotEmpty()
+  @IsString()
+  readonly acceptedNews: string;
 
   @IsOptional()
   profileImage: Buffer;

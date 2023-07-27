@@ -35,7 +35,7 @@ export class UsersController {
     @UploadedFile() file: Express.Multer.File,
     @Body() signUpDto: SignUpDto,
   ): Promise<{ token: string }> {
-    const { username, fullname, email, password, cellphone, permission, status } =
+    const { username, fullname, email, password, birthDate, cellphone, status, bios, acceptedNews, permission,  } =
       signUpDto;
 
     const profileImage = file ? file.buffer : null; // Access the buffer of the uploaded file, or set it to null if no file was uploaded
@@ -45,10 +45,13 @@ export class UsersController {
       fullname,
       email,
       password,
+      birthDate,
       cellphone,
+      status,
+      bios,
+      acceptedNews,
       permission,
       profileImage,
-      status
     });
   }
 
