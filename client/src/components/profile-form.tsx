@@ -50,6 +50,7 @@ const profileFormSchema = z.object({
       required_error: "Por favor selecione um email como principal.",
     })
     .email(),
+  profileImage: z.string(),
   bio: z.string().max(160).min(4),
   urls: z
     .array(
@@ -74,7 +75,9 @@ const defaultValues: Partial<ProfileFormValues> = {
 export function ProfileForm() {
   const [profileImage, setProfileImage] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
+  const [isMouseOver, setIsMouseOver] = useState(false);
   const navigate = useRouter();
+  const [username, setUsername] = useState<string>("");
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -115,12 +118,15 @@ export function ProfileForm() {
             };
             try {
               const response = await axios.get(`${API_URL}/${userId}`, config);
-              const imageBuffer = response.data.profileImage.data; // obtém o buffer de imagem do response
+              const imageBuffer = response.data.profileImage.data;
+              const username = response.data.username;// obtém o buffer de imagem do response
               const blob = new Blob([new Uint8Array(imageBuffer)], {
                 type: "image/*",
               }); // cria um objeto Blob a partir do buffer
               const imageUrl = URL.createObjectURL(blob); // cria um URL para o objeto Blob
-              setProfileImage(imageUrl); // define a URL como a fonte da imagem
+              setProfileImage(imageUrl);
+              setUsername(username);
+              // define a URL como a fonte da imagem
             } catch (error) {
               console.error(error);
             }
@@ -133,7 +139,6 @@ export function ProfileForm() {
 
     fetchUser();
   }, []); // Certifique-se de passar um array vazio aqui para garantir que o efeito seja executado apenas uma vez após a montagem inicial
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,35 +161,55 @@ export function ProfileForm() {
       setProfileImage(imageUrl);
     }
   };
+  
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <div className="relative">
-                <Image className="object-cover w-12 h-12 rounded-full cursor-pointer hover:" onClick={() => document.getElementById('profileImageInput')?.click()} src={profileImage} src={profileImage} alt='' width={400} height={400} />
-                {/* Hidden file input to trigger the file selection dialog */}
-                <input
-                  type="file"
-                  id="profileImageInput"
-                  accept="image/*"
-                  onChange={handleProfileImageChange}
-                  className="hidden"
-                />
-                {/* Edit icon */}
-                <div className="absolute bottom-2 left-[0.8rem]rounded-full p-1 cursor-pointer" onClick={() => document.getElementById('profileImageInput')?.click()}>
-                  <Pen className='bg-transparent text-transparent hover:text-black 'size={16} />
-                </div>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
+      <FormField
+  control={form.control}
+  name="profileImage"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Foto de Perfil</FormLabel>
+      <div
+        className="relative"
+        
+      >
+        <Image
+          className={`object-cover w-40 h-40 rounded-full cursor-pointer ${
+            isMouseOver ? 'grayscale' : ''}`}
+          onClick={() => document.getElementById('profileImageInput')?.click()}
+          src={profileImage || `https://api.dicebear.com/6.x/initials/svg?seed=${username}&fontWeight=600`}
+          alt=''
+          width={400}
+          height={400}
+          onMouseEnter={() => setIsMouseOver(true)}
+        onMouseLeave={() => setIsMouseOver(false)}
         />
+        {/* Hidden file input to trigger the file selection dialog */}
+        <input
+          type="file"
+          id="profileImageInput"
+          accept="image/*"
+          onChange={handleProfileImageChange}
+          className="hidden"
+        />
+        {/* Edit icon */}
+        <div
+          className={`absolute bottom-2 left-[4rem] top-[4rem] rounded-full cursor-pointer ${
+            isMouseOver ? 'text-red-700' : 'text-transparent hover:text-red-700'}`}
+          onClick={() => document.getElementById('profileImageInput')?.click()}
+        >
+          <Pen size={40} onMouseEnter={() => setIsMouseOver(true)}
+        onMouseLeave={() => setIsMouseOver(false)} />
+        </div>
+      </div>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
         <FormField
           control={form.control}
           name="username"

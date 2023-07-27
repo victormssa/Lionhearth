@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.filter-grayscale:hover {
+    filter: grayscale(100%);
+  }
+  
+  .group:hover .text-black {
+    color: black;
+  }
