@@ -16,7 +16,7 @@ export enum Status {
 @Schema({ timestamps: true })
 export class User {
   @Prop({ unique: [true, 'Duplicated username entered'] })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Username should not be empty' })
   @IsString()
   username: string;
 
@@ -26,17 +26,17 @@ export class User {
   fullname: string;
 
   @Prop({ unique: [true, 'Duplicated email entered'] })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Email should not be empty' })
   @IsEmail()
   email: string;
 
   @Prop()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Password should not be empty' })
   @IsString()
   password: string;
 
   @Prop()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Birth date should not be empty' })
   @IsString()
   birthDate: string;
 
@@ -64,7 +64,7 @@ export class User {
   acceptedNews: string;
 
   @Prop()
-  profileImage: Buffer;
+  profileImage: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

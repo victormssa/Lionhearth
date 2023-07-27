@@ -13,6 +13,7 @@ import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/signup-user.dto';
 import { LoginDto } from './dto/login.dto';
+import { v2 as cloudinary } from 'cloudinary';
 
 @Injectable()
 export class UsersService {
@@ -20,7 +21,13 @@ export class UsersService {
     @InjectModel(User.name)
     private userModel: mongoose.Model<User>,
     private jwtService: JwtService,
-  ) {}
+  ) {
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+  }
 
   async findAll(query: Query): Promise<User[]> {
     const resPerPage = 10;
@@ -138,6 +145,20 @@ export class UsersService {
     } catch (error) {
       console.error('Error deleting user:', error);
       return null;
+    }
+  }
+  
+    async uploadImage(imageFile: Express.Multer.File, userId: string): Promise<string> {
+    try {
+      const result = await cloudinary.uploader.upload(imageFile.path);
+      const imageUrl = result.secure_url;
+
+      // Salva a URL da imagem no documento de usuário no MongoDB
+      await this.userModel.findByIdAndUpdate(userId, { profilePictureUrl: imageUrl });
+
+      return imageUrl;
+    } catch (error) {
+      throw new Error('Erro ao fazer o upload da imagem.');
     }
   }
 }

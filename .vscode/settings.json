@@ -1,5 +1,5 @@
 {
-    "dotenv.enableAutocloaking": true,
+    "dotenv.enableAutocloaking": false,
     "material-icon-theme.activeIconPack": "nest",
     "git.ignoreLimitWarning": true
 }

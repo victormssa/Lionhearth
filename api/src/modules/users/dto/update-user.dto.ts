@@ -49,5 +49,5 @@ export class UpdateUserDto {
   readonly acceptedNews: string;
 
   @IsOptional()
-  profileImage: Buffer;
+  profileImage: string;
 }
