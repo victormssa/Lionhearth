@@ -24,8 +24,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 import { Textarea } from "./ui/textarea"
 import { toast } from "./ui/use-toast"
+import { useEffect, useState } from 'react';
+import axios, { AxiosRequestConfig } from "axios";
+import Cookies from 'js-cookie';
+import jwtDecode from "jwt-decode";
+import { useRouter } from "next/navigation";
+import { Pen } from 'lucide-react';
+import Image from 'next/image';
 
 const profileFormSchema = z.object({
   username: z
@@ -63,6 +72,10 @@ const defaultValues: Partial<ProfileFormValues> = {
 }
 
 export function ProfileForm() {
+  const [profileImage, setProfileImage] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
+  const navigate = useRouter();
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
@@ -85,9 +98,93 @@ export function ProfileForm() {
     })
   }
 
+  const API_URL = "https://api-lionhearth.vercel.app/users"
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = Cookies.get('token');
+      if (token) {
+        try {
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken.id;
+          setUserId(userId);
+
+          if (userId) {
+            const config: AxiosRequestConfig = {
+              headers: { Authorization: `Bearer ${token}` },
+            };
+            try {
+              const response = await axios.get(`${API_URL}/${userId}`, config);
+              const imageBuffer = response.data.profileImage.data; // obtém o buffer de imagem do response
+              const blob = new Blob([new Uint8Array(imageBuffer)], {
+                type: "image/*",
+              }); // cria um objeto Blob a partir do buffer
+              const imageUrl = URL.createObjectURL(blob); // cria um URL para o objeto Blob
+              setProfileImage(imageUrl); // define a URL como a fonte da imagem
+            } catch (error) {
+              console.error(error);
+            }
+          }
+        } catch (error) {
+          console.error('Error decoding token:', error);
+        }
+      }
+    };
+
+    fetchUser();
+  }, []); // Certifique-se de passar um array vazio aqui para garantir que o efeito seja executado apenas uma vez após a montagem inicial
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (profileImage !== null) {
+      formData.append("profileImage", profileImage);
+    }
+    await axios.post(API_URL, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data
+      },
+    });
+  };
+  const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // You can do any processing on the selected file if needed.
+      // For now, we'll just set the profile image state.
+      const imageUrl = URL.createObjectURL(file);
+      setProfileImage(imageUrl);
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <div className="relative">
+                <Image className="object-cover w-12 h-12 rounded-full cursor-pointer hover:" onClick={() => document.getElementById('profileImageInput')?.click()} src={profileImage} src={profileImage} alt='' width={400} height={400} />
+                {/* Hidden file input to trigger the file selection dialog */}
+                <input
+                  type="file"
+                  id="profileImageInput"
+                  accept="image/*"
+                  onChange={handleProfileImageChange}
+                  className="hidden"
+                />
+                {/* Edit icon */}
+                <div className="absolute bottom-2 left-[0.8rem]rounded-full p-1 cursor-pointer" onClick={() => document.getElementById('profileImageInput')?.click()}>
+                  <Pen className='bg-transparent text-transparent hover:text-black 'size={16} />
+                </div>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="username"

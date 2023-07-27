@@ -55,8 +55,6 @@ export default function Menu() {
 
   const API_URL = "https://api-lionhearth.vercel.app/users"
   
-
-
   useEffect(() => {
 
     const token = Cookies.get('token');
