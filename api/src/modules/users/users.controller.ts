@@ -25,7 +25,6 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('/users')
 export class UsersController {
   constructor(private readonly authService: UsersService) {}
-
   @Get()
   async getAllUsers(@Query() query: ExpressQuery): Promise<User[]> {
     try {
@@ -66,6 +65,7 @@ export class UsersController {
   }
 
   @Post('/login')
+  @UseGuards(AuthGuard('jwt'))
   async login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
     try {
       return this.authService.login(loginDto);
@@ -76,6 +76,7 @@ export class UsersController {
   }
 
   @Get('/:id')
+  @UseGuards(AuthGuard('jwt'))
   async getUser(@Param('id') id: mongoose.Types.ObjectId) {
     try {
       const user = await this.authService.findById(id);
@@ -90,6 +91,7 @@ export class UsersController {
   }
 
   @Put('/:id')
+  @UseGuards(AuthGuard('jwt'))
   async updateUser(
     @Param('id') id: mongoose.Types.ObjectId,
     @Body() user: UpdateUserDto,
@@ -107,6 +109,7 @@ export class UsersController {
   }
 
   @Delete('/:id')
+  @UseGuards(AuthGuard('jwt'))
   async deleteUser(@Param('id') id: mongoose.Types.ObjectId) {
     try {
       const user = await this.authService.deleteById(id);
