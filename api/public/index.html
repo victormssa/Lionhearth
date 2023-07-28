@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lionhearth API Documentation</title>
+  <!-- Load Swagger UI -->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+</head>
+<body>
+  <div id="swagger-ui"></div>
+
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+  <script type="application/json" id="swagger-json">
+    {
+        "openapi": "3.0.0",
+        "info": {
+          "title": "Lionhearth API",
+          "description": "The Lionhearth API provides endpoints to manage user accounts, access game data, and interact with the Lionhearth RPG platform.",
+          "contact": {
+            "name": "Archei Software",
+            "url": "https://archei.vercel.app",
+            "email": "archeisoftware@gmail.com"
+          },
+          "version": "v0.0.1",
+          "license": {
+            "name": "MIT License",
+            "url": "https://opensource.org/licenses/MIT"
+          }
+        },
+        "servers": [
+          {
+            "url": "https://api-lionhearth.vercel.app"
+          }
+        ],
+        "paths": {
+          "/users": {
+            "get": {
+              "summary": "Retrieve a list of users",
+              "description": "Get a list of registered users on the Lionhearth platform.",
+              "responses": {
+                "200": {
+                  "description": "Successful response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/User"
+                        }
+                      },
+                      "example": {
+                        "users": [
+                          {
+                            "id": "6152a68ac1eb0c207cebefe2",
+                            "username": "johndoe",
+                            "fullname": "John Doe",
+                            "email": "john.doe@example.com"
+                          },
+                          {
+                            "id": "6152a68ac1eb0c207cebefef",
+                            "username": "janesmith",
+                            "fullname": "Jane Smith",
+                            "email": "jane.smith@example.com"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      },
+                      "example": {
+                        "error": "Internal Server Error. Please try again later."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/users/signup": {
+            "post": {
+              "summary": "Create a new user",
+              "description": "Sign up a new user on the Lionhearth platform.",
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "multipart/form-data": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "username": { "type": "string" },
+                        "fullname": { "type": "string" },
+                        "email": { "type": "string", "format": "email" },
+                        "password": { "type": "string" },
+                        "birthDate": { "type": "string", "format": "date" },
+                        "cellphone": { "type": "string" },
+                        "status": { "type": "string" },
+                        "bios": { "type": "string" },
+                        "acceptedNews": { "type": "boolean" },
+                        "permission": { "type": "string" },
+                        "profileImage": { "type": "string", "format": "binary" }
+                      },
+                      "example": {
+                        "username": "johndoe",
+                        "fullname": "John Doe",
+                        "email": "john.doe@example.com",
+                        "password": "123456",
+                        "birthDate": "2000-01-01",
+                        "cellphone": "+1 123-456-7890",
+                        "status": "active",
+                        "bios": "Hello, I'm John!",
+                        "acceptedNews": true,
+                        "permission": "user",
+                        "profileImage": "(binary)"
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "201": {
+                  "description": "User successfully created",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "token": { "type": "string" }
+                        }
+                      },
+                      "example": {
+                        "token": "your-jwt-token-here"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      },
+                      "example": {
+                        "error": "Internal Server Error. Please try again later."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/users/login": {
+            "post": {
+              "summary": "User login",
+              "description": "Log in an existing user on the Lionhearth platform.",
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/LoginDto"
+                    },
+                    "example": {
+                      "email": "john.doe@example.com",
+                      "password": "123456"
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "Login successful",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "token": { "type": "string" }
+                        }
+                      },
+                      "example": {
+                        "token": "your-jwt-token-here"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      },
+                      "example": {
+                        "error": "Internal Server Error. Please try again later."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/users/{id}": {
+            "get": {
+              "summary": "Get user by ID",
+              "description": "Get a user by their unique ID.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Successful response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/User"
+                      },
+                      "example": {
+                        "id": "6152a68ac1eb0c207cebefe2",
+                        "username": "johndoe",
+                        "fullname": "John Doe",
+                        "email": "john.doe@example.com"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "User not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/shemas/Error"
+                    },
+                    "example": {
+                      "error": "User not found"
+                    }
+                  }
+                }
+              },
+              "500": {
+                "description": "Internal Server Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Error"
+                    },
+                    "example": {
+                      "error": "Internal Server Error. Please try again later."
+                    }
+                  }
+                }
+              }
+            }
+        }
+          },
+          "/users/{id}": {
+            "put": {
+              "summary": "Update user by ID",
+              "description": "Update a user's information by their unique ID.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              ],
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/UpdateUserDto"
+                    },
+                    "example": {
+                      "fullname": "Updated John Doe",
+                      "email": "updated.john.doe@example.com",
+                      "cellphone": "+1 987-654-3210",
+                      "status": "inactive",
+                      "bios": "Updated bio",
+                      "acceptedNews": false,
+                      "permission": "admin"
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "Successful response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/User"
+                      },
+                      "example": {
+                        "id": "6152a68ac1eb0c207cebefe2",
+                        "username": "johndoe",
+                        "fullname": "Updated John Doe",
+                        "email": "updated.john.doe@example.com",
+                        "cellphone": "+1 987-654-3210",
+                        "status": "inactive",
+                        "bios": "Updated bio",
+                        "acceptedNews": false,
+                        "permission": "admin"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "User not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      },
+                      "example": {
+                        "error": "User not found"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      },
+                      "example": {
+                        "error": "Internal Server Error. Please try again later."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "delete": {
+              "summary": "Delete user by ID",
+              "description": "Delete a user by their unique ID.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Successful response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/User"
+                      },
+                      "example": {
+                        "id": "6152a68ac1eb0c207cebefe2",
+                        "username": "johndoe",
+                        "fullname": "Updated John Doe",
+                        "email": "updated.john.doe@example.com",
+                        "cellphone": "+1 987-654-3210",
+                        "status": "inactive",
+                        "bios": "Updated bio",
+                        "acceptedNews": false,
+                        "permission": "admin"
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "User not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      },
+                      "example": {
+                        "error": "User not found"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      },
+                      "example": {
+                        "error": "Internal Server Error. Please try again later."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/users/{id}/picture": {
+            "post": {
+              "summary": "Upload profile picture",
+              "description": "Upload a profile picture for a user by their unique ID.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              ],
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "multipart/form-data": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "image": {
+                          "type": "string",
+                          "format": "binary"
+                        }
+                      },
+                      "example": {
+                        "image": "(binary)"
+                      }
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "Successful response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "message": { "type": "string" }
+                        }
+                      },
+                      "example": {
+                        "message": "Profile picture uploaded successfully."
+                      }
+                    }
+                  }
+                },
+                "404": {
+                  "description": "User not found",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      },
+                      "example": {
+                        "error": "User not found"
+                      }
+                    }
+                  }
+                },
+                "500": {
+                  "description": "Internal Server Error",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Error"
+                      },
+                      "example": {
+                        "error": "Internal Server Error. Please try again later."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "components": {
+          "schemas": {
+            "LoginDto": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "The email address of the user."
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "The password of the user."
+                  }
+                },
+                "example": {
+                  "email": "john.doe@example.com",
+                  "password": "123456"
+                }
+              },
+              "UpdateUserDto": {
+                "type": "object",
+                "properties": {
+                  "fullname": {
+                    "type": "string",
+                    "description": "The updated full name of the user."
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "The updated email address of the user."
+                  },
+                  "cellphone": {
+                    "type": "string",
+                    "description": "The updated cellphone number of the user."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "The updated status of the user."
+                  },
+                  "bios": {
+                    "type": "string",
+                    "description": "The updated biography of the user."
+                  },
+                  "acceptedNews": {
+                    "type": "boolean",
+                    "description": "The updated news acceptance status of the user."
+                  },
+                  "permission": {
+                    "type": "string",
+                    "description": "The updated permission level of the user."
+                  }
+                },
+                "example": {
+                  "fullname": "Updated John Doe",
+                  "email": "updated.john.doe@example.com",
+                  "cellphone": "+1 987-654-3210",
+                  "status": "inactive",
+                  "bios": "Updated bio",
+                  "acceptedNews": false,
+                  "permission": "admin"
+                }
+              },
+              "Error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "description": "An error message."
+                  }
+                }
+              }
+            }
+          }
+        }
+  </script>
+  <script>
+    // Begin Swagger UI call region
+    const ui = SwaggerUIBundle({
+      spec: JSON.parse(document.getElementById('swagger-json').textContent), // Load the embedded JSON
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIStandalonePreset,
+      ],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl,
+      ],
+      layout: "BaseLayout",
+    })
+    // End Swagger UI call region
+
+    window.ui = ui
+  </script>
+</body>
+</html>
